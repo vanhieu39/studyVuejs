@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="obj">
+        <p v-html="testMaHTML"></p>
+        <p v-once>{{noidung}} - {{showPost()}}</p>
+        <a v-bind:href="link">My Facebook</a>
+    </div>
+    <script>
+        new Vue({
+            el: "#obj",
+            data: {
+                noidung: "Đây là trang chủ",
+                link: "https://facebook.com",
+                testMaHTML: "<a href='password()'>Get Password</a>",
+            },
+            methods: {
+                showPost() {
+                    this.noidung = "Nội dung vừa cập nhật!"
+                    return this.noidung
+                }
+            },
+			
+			
+        })
+    </script>
+</body>
+
+</html>
