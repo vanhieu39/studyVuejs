@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+      <p>Giá trị A: {{tanga}}</p>
+      <p>Giá trị B: {{tangb}}</p>
+      <p>Giá trị A: {{tangaf()}}</p>
+      <p>Giá trị B: {{tangbf()}}</p>
+      <button v-on:click="a++">Tăng A</button>
+      <button v-on:click="b++">Tăng B</button>
+    </div>
+    <script>
+	
+	
+        new Vue({
+            el: "#app",
+            data: {
+               a:0,
+               b:0
+            },
+            computed:{
+                tanga(){
+                    console.log("computed")
+                    console.log("Goi function a")
+                    return this.a
+                },
+                tangb(){
+                    console.log("computed")
+                    console.log("Goi function b")
+                    return this.b
+                }
+            },
+            methods: {
+                tangaf(){
+                    console.log("methods")
+                    console.log("Goi function af")
+                    return this.a
+                },
+                tangbf(){
+                    console.log("methods")
+                    console.log("Goi function bf")
+                    return this.b
+                }
+            },
+			
+			
+        })
+    </script>
+</body>
+
+</html>
