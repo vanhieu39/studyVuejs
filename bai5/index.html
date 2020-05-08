@@ -10,49 +10,21 @@
 
 <body>
     <div id="app">
-      <p>Giá trị A: {{tanga}}</p>
-      <p>Giá trị B: {{tangb}}</p>
-      <p>Giá trị A: {{tangaf()}}</p>
-      <p>Giá trị B: {{tangbf()}}</p>
-      <button v-on:click="a++">Tăng A</button>
-      <button v-on:click="b++">Tăng B</button>
+        <p>{{diem}}</p>
     </div>
     <script>
-	
-	
-        new Vue({
+       var app =  new Vue({
             el: "#app",
             data: {
-               a:0,
-               b:0
+              diem:"Bạn A có môn toán 7 điểm"
             },
-            computed:{
-                tanga(){
-                    console.log("computed")
-                    console.log("Goi function a")
-                    return this.a
-                },
-                tangb(){
-                    console.log("computed")
-                    console.log("Goi function b")
-                    return this.b
+            watch:{
+                diem(){
+                    alert("Điểm của bạn ấy đã được 1 giáo viên nhập")
                 }
-            },
-            methods: {
-                tangaf(){
-                    console.log("methods")
-                    console.log("Goi function af")
-                    return this.a
-                },
-                tangbf(){
-                    console.log("methods")
-                    console.log("Goi function bf")
-                    return this.b
-                }
-            },
-			
-			
+            }
         })
+        app.diem ="Điểm toán là 8"
     </script>
 </body>
 
