@@ -13,17 +13,29 @@
       <i class="ion-ios-loop"></i>Roll dice
     </button>
 
-    <button class="control btn-hold">
+    <button class="control btn-hold"
+    @click="$emit('handleHoldScore')"
+    >
       <i class="ion-ios-download-outline"></i>Hold
     </button>
 
-    <input type="number" placeholder="Final score" class="final-score" />
+    <input 
+    :disabled="isPlaying"
+    :value="finalScore"
+    @input="$emit('handleChangeFinalScore',$event)"
+    type="number" 
+    placeholder="Final score" 
+    class="final-score" />
   </div>
 </template>
 
 <script>
 export default {
     name: 'control',
+    props:{
+      finalScore:{type:[Number,String],default:100},
+      isPlaying:{type:Boolean,default:false}
+    },
     data(){
         return{
 

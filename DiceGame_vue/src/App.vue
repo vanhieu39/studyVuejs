@@ -2,6 +2,7 @@
 	<div id="app">
 		<div class="wrapper clearfix">
             <Player
+            :isWinner="isWinner"
             v-bind:scoresPlayer="scoresPlayer"
             v-bind:activePlayer="activePlayer"
             v-bind:currentScore="currentScore"
@@ -9,6 +10,10 @@
             <Control 
             v-on:handleNewGame="handleNewGame"
             v-on:handleRollDice="handleRollDice"
+            v-on:handleHoldScore="handleHoldScore"
+                :finalScore="finalScore"
+                :isPlaying="isPlaying"
+            v-on:handleChangeFinalScore="handleChangeFinalScore"
             />
             <Dices
             :dices="dices"
@@ -35,9 +40,10 @@ export default {
             isPlaying:false,
             isOpenPopup:false,
             activePlayer:0,
-            scoresPlayer:[13,30],
-            currentScore:30,
-            dices:[2,5]
+            scoresPlayer:[0,0],
+            currentScore:0,
+            dices:[2,5],
+            finalScore:10
 		}
 	},
 	components: {
@@ -46,13 +52,68 @@ export default {
         Dices,
         PopupRule
     },
+    computed:{
+        isWinner(){
+            let {scoresPlayer,finalScore} = this
+            if(scoresPlayer[0] >= finalScore || 
+                scoresPlayer[1] >= finalScore){
+                //Dung cuoc choi
+                this.isPlaying=false
+                return true
+            }
+            return false
+        }
+    },
     methods:{
+        handleChangeFinalScore(e){
+            let number = parseInt(e.target.value)
+            if(isNaN(number)){
+                this.finalScore = ''
+            }
+            this.finalScore = number
+            
+        },
+        handleHoldScore(){
+           if(this.isPlaying){
+            let {scoresPlayer,activePlayer,currentScore} = this;
+            let cloneScorePlayer = [...scoresPlayer]
+            let scoreOld = scoresPlayer[activePlayer]
+                cloneScorePlayer[activePlayer] = scoreOld + currentScore
+            this.scoresPlayer = cloneScorePlayer
+           if(!this.isWinner){
+               this.nextPlayer()
+           }    
+           }else{
+               alert("Vui lòng nhất nút NewGame")
+           }
+        },
+        nextPlayer(){
+            this.activePlayer = this.activePlayer === 0 ? 1 : 0
+            this.currentScore = 0
+        },
         handleRollDice(){
             console.log("app.vue")
             if(this.isPlaying){
                 //xoay xúc sắc
                 //Math.random(): 0 ->1
-                
+                let dice1 = Math.floor(Math.random()*6) + 1
+                let dice2 = Math.floor(Math.random()*6) + 1
+                this.dices= [dice1,dice2]
+                console.log(dice1, dice2)
+                if(dice1 === 1 || dice2 ===1){
+                    let activePlayer = this.activePlayer
+                    setTimeout(() => {
+                         alert(`Người chơi Player ${activePlayer + 1} đã quay trúng số 1. Rất tiếc`)
+                    }, 10);
+                    //Đổi lượt chơi
+                   
+                    this.nextPlayer()
+                    //reset điểm tạm thời về 0
+                }else{
+                    //cộng dồn vào điểm tạm thời cho người chơi
+                    this.currentScore = this.currentScore + dice1 + dice2
+                }
+
             }else{
                 alert("Vui lòng nhấn vào nút NewGame")
             }

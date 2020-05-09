@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div class="player-panel" :class="{active:activePlayer === 0}">
-      <div class="player-name">Player 1</div>
+    <div class="player-panel" 
+    :class="{active:activePlayer === 0 && !isWinner,
+              winner:activePlayer === 0 && isWinner}"
+    >
+      <div class="player-name">{{getNamePlayer(0)}}</div>
       <div class="player-score">{{scoresPlayer[0]}}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
@@ -9,8 +12,11 @@
       </div>
     </div>
 
-    <div class="player-panel" :class="{active:activePlayer === 1}">
-      <div class="player-name">Player 2</div>
+    <div class="player-panel" 
+    :class="{active:activePlayer === 1 && !isWinner,
+              winner:activePlayer === 1 && isWinner}"
+    >
+      <div class="player-name">{{getNamePlayer(1)}}</div>
       <div class="player-score">{{scoresPlayer[1]}}</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
@@ -26,11 +32,21 @@ export default {
   props:{
       scoresPlayer:{type:Array,default:[0,0]},
       currentScore:{type:Number,default:0},
-      activePlayer:{type:Number,default:0}
+      activePlayer:{type:Number,default:0},
+      isWinner:{type:Boolean,default:false}
   },
   data() {
     return {};
-  }
+  },
+   methods:{
+    getNamePlayer(index){
+      var defaulName = 'Player' + (index+1);
+      if(this.activePlayer === index && this.isWinner){
+        defaulName="Winner!"
+      }
+      return defaulName;
+    }
+  },
 };
 </script>
 
